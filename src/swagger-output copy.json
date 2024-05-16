@@ -1,0 +1,3115 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "E-Commerce API using node.js",
+    "description": "This API provides endpoints for managing an e-commerce platform, enabling users to browse products, manage their carts and wishlists, and administrators to handle product creation and authentication.\n\n**Features include:**\n- **Add to Cart**: Users can add products to their shopping carts for future purchase.\n- **Create Product (Admin)**: Administrators have the ability to create new products for the platform.\n- **Add to Wishlist**: Users can add products to their wishlists for later consideration or purchase.\n- **Product Order Management**: Users can create orders for purchasing products and track their order status.\n- **User Address**: Users can manage their addresses for shipping and billing purposes.\n- **User Authentication API**: Endpoints for user registration, login, and authentication token generation.\n- **Admin Authentication API**: Endpoints for administrator login and authentication token generation. \n\n\n**Contact Information**:\n- **Name:** Omkar Sathe\n- **Email:** [satheomkar143@gmail.com](mailto:satheomkar143@gmail.com)\n- **Phone:** [7058919412](tel:7058919412)\n- **Designation:** Software Developer\n- **Portfolio:** [https://visionnaire.netlify.app/](https://visionnaire.netlify.app/)",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://ecommerce-rest-api-omkar.vercel.app/",
+      "description": "Production Server"
+    },
+    {
+      "url": "http://localhost:8000/",
+      "description": "Local server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "User Authentication"
+    },
+    {
+      "name": "Admin Authentication"
+    },
+    {
+      "name": "User",
+      "description": "Before the api call it checked if user cookie token (userToken) is present or not. and user fetched from the id decoded from token."
+    },
+    {
+      "name": "User Address",
+      "description": "Before the api call it checked if user cookie token (userToken) is present or not. and address fetched from the id of user decoded from token."
+    },
+    {
+      "name": "Products"
+    },
+    {
+      "name": "User Cart",
+      "description": "Before the api call it checked if user cookie token (userToken) is present or not. and cart fetched from the id of user decoded from token."
+    },
+    {
+      "name": "User Products Order"
+    },
+    {
+      "name": "User Products Wishlist"
+    }
+  ],
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": ["User Authentication"],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "User created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSchemaRes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User already exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/alreadyExists"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["User Authentication"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Login successful and user token added to cookies (userToken)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/successfullLogin"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect Password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/incorrectPassword"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "get": {
+        "tags": ["User Authentication"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Logout successful and removed user token from cookie (userToken)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/logout"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/refetch": {
+      "get": {
+        "tags": ["User Authentication"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "current user data as per token id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/currentUser"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin-auth/register": {
+      "post": {
+        "tags": ["Admin Authentication"],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Admin created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/adminSchemaRes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Admin already exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/alreadyExists"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin-auth/login": {
+      "post": {
+        "tags": ["Admin Authentication"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Login successful and amin token added to cookies (adminToken)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/successfullAdminLogin"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect Password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/incorrectPassword"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Admin not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin-auth/logout": {
+      "get": {
+        "tags": ["Admin Authentication"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Logout successful and removed admin token from cookie (adminToken)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/logout"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin-auth/refetch": {
+      "get": {
+        "tags": ["Admin Authentication"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "current admin data as per token id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/currentAdmin"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized admin (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorizedAdmin"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Admin not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/update": {
+      "put": {
+        "tags": ["User"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "User update successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/successfulUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "description": "Dont need to send all data. Only data to be updated.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/": {
+      "get": {
+        "tags": ["User"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "User details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/currentUser"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/delete": {
+      "delete": {
+        "tags": ["User"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "User delete successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/successfulDelete"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/address/create": {
+      "post": {
+        "tags": ["User Address"],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Address created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addressRes"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "description": "addressLine2 is optional, user id not required. rest are mandetory. no need to send user id. login user id added to it.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/addressSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/address/update/{id}": {
+      "put": {
+        "tags": ["User Address"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "provide id of the address",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/idSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Address updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addressUpdateRes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Address not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addressNotFound"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "description": "all field are not mandatory. user id cannot be changed regardless it is passed or not. In below request we changed last 2 digit of user id, but in response it not changed.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/addressUpdateSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/address/delete/{id}": {
+      "delete": {
+        "tags": ["User Address"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "provide id of the address",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/idSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Address deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addressDeleteRes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Address not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addressNotFound"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/address/": {
+      "get": {
+        "tags": ["User Address"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "login user's all addresses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/userAddresses"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Address not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addressNotFound"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/create": {
+      "post": {
+        "tags": ["Products"],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Product created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "message": "product added successfully",
+                  "$ref": "#/components/schemas/productSchemaRes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Product image not provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/productImage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "description": "Only admin can access this route. Admin login required to create a product.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/productSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/search/{query}": {
+      "get": {
+        "tags": ["Products"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "path",
+            "description": "search by product name or category",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/searchSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All product related to search query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/searchProduct"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/": {
+      "get": {
+        "tags": ["Products"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "All product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/searchProduct"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/{category}": {
+      "get": {
+        "tags": ["Products"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "description": "search by product category",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/searchSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All product related to category",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/searchProduct"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product/get/{id}": {
+      "get": {
+        "tags": ["Products"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "search by product id",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/idSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "product related to id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/productSchemaRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/create": {
+      "post": {
+        "tags": ["User Products Order"],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Order created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/createOrderSchemaRes"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "description": "pass the id of products to place order",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/orderSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/cancle/{id}": {
+      "delete": {
+        "tags": ["User Products Order"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass id of order to cancle",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/idSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order cancled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "message": "product added successfully",
+                  "$ref": "#/components/schemas/cancleOrderSchemaRes"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/": {
+      "get": {
+        "tags": ["User Products Order"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "user all order details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "message": "product added successfully",
+                  "$ref": "#/components/schemas/userAllOrders"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cart/add": {
+      "post": {
+        "tags": ["User Cart"],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": " added to cart",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cartSchemaRes"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "descrption": "You can add any number for quantity. If not given default 1 is applied",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cartSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cart/remove": {
+      "delete": {
+        "tags": ["User Cart"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": " removed from cart",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cartRemovedSchemaRes"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cart not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cartNotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/removeCartSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cart/": {
+      "get": {
+        "tags": ["User Cart"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "user cart details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/userCart"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cart not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cartNotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/wishlist/add": {
+      "post": {
+        "tags": ["User Products Wishlist"],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Product added to the wishlist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/wishlistAddedRes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "product id not provided or Product already exists in the wishlist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/wishlistProductExist"
+                    },
+                    {
+                      "$ref": "#/components/schemas/productIdNotFound"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/notFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "description": "pass the id of product to add wishlist",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/wishlistSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/wishlist/remove": {
+      "delete": {
+        "tags": ["User Products Wishlist"],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Product removed from the wishlist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/wishlistProductRemoved"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "product id not provided or Product already exists in the wishlist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/productIdNotFound"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "wishlist not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/wishlistNotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "description": "pass the id of product to remove from wishlist",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/wishlistSchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/wishlist/": {
+      "get": {
+        "tags": ["User Products Wishlist"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "login user's wishlist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/userWishlist"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user (if token not found / invalid)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "wishlist not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/wishlistNotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/internalError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "johndoe"
+          },
+          "password": {
+            "type": "string",
+            "example": "jahn@123"
+          }
+        },
+        "required": ["name", "email", "password"]
+      },
+      "UserSchemaRes": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Resister successful"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "John Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "johndoe"
+              },
+              "_id": {
+                "type": "string",
+                "example": "6623adae3fd349bd06b525d8"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              }
+            }
+          }
+        }
+      },
+      "currentUser": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "John Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "johndoe"
+              },
+              "_id": {
+                "type": "string",
+                "example": "6623adae3fd349bd06b525d8"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              }
+            }
+          }
+        }
+      },
+      "alreadyExists": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "already exists"
+          }
+        }
+      },
+      "notFound": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "not found"
+          }
+        }
+      },
+      "internalError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Internal server error"
+          }
+        }
+      },
+      "incorrectPassword": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Incorrect password"
+          }
+        }
+      },
+      "loginSchema": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "johndoe"
+          },
+          "password": {
+            "type": "string",
+            "example": "jahn@123"
+          }
+        },
+        "required": ["email", "password"]
+      },
+      "successfullLogin": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Login successful"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "John Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "johndoe"
+              },
+              "_id": {
+                "type": "string",
+                "example": "6623adae3fd349bd06b525d8"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              }
+            }
+          }
+        }
+      },
+      "logout": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Logout successful"
+          }
+        }
+      },
+      "unauthorized": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Unauthorized user"
+          }
+        }
+      },
+      "successfulUpdate": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Update successful"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "John Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "johndoe"
+              },
+              "_id": {
+                "type": "string",
+                "example": "6623adae3fd349bd06b525d8"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              }
+            }
+          }
+        }
+      },
+      "successfulDelete": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Delete successful"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "John Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "johndoe"
+              },
+              "_id": {
+                "type": "string",
+                "example": "6623adae3fd349bd06b525d8"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              }
+            }
+          }
+        }
+      },
+      "idSchema": {
+        "type": "string",
+        "example": "6623c3233a6eca1c26865321"
+      },
+      "addressSchema": {
+        "type": "object",
+        "properties": {
+          "addressLine1": {
+            "type": "string",
+            "example": "shanivar peth"
+          },
+          "addressLine2": {
+            "type": "string",
+            "example": "near shanivar wada"
+          },
+          "city": {
+            "type": "string",
+            "example": "pune"
+          },
+          "state": {
+            "type": "string",
+            "example": "maharashtra"
+          },
+          "country": {
+            "type": "string",
+            "example": "india"
+          },
+          "postalCode": {
+            "type": "number",
+            "example": 416235
+          }
+        },
+        "required": ["addressLine1", "city", "state", "country", "postalCode"]
+      },
+      "addressRes": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Address created"
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "type": "string",
+                "example": "6623c12dcc74103d450d2c97"
+              },
+              "addressLine1": {
+                "type": "string",
+                "example": "shanivar peth"
+              },
+              "addressLine2": {
+                "type": "string",
+                "example": "near shanivar wada"
+              },
+              "city": {
+                "type": "string",
+                "example": "pune"
+              },
+              "state": {
+                "type": "string",
+                "example": "maharashtra"
+              },
+              "country": {
+                "type": "string",
+                "example": "india"
+              },
+              "postalCode": {
+                "type": "string",
+                "example": "416235"
+              },
+              "_id": {
+                "type": "string",
+                "example": "6623c3233a6eca1c26865321"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-20T13:29:07.242Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-20T13:29:07.242Z"
+              },
+              "__v": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          }
+        }
+      },
+      "addressUpdateSchema": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "string",
+            "example": "6623c12dcc74103d450d2c56"
+          },
+          "addressLine1": {
+            "type": "string",
+            "example": "shanivar peth (updated)"
+          },
+          "addressLine2": {
+            "type": "string",
+            "example": "near shanivar wada"
+          },
+          "city": {
+            "type": "string",
+            "example": "pune"
+          },
+          "state": {
+            "type": "string",
+            "example": "maharashtra"
+          },
+          "country": {
+            "type": "string",
+            "example": "india"
+          },
+          "postalCode": {
+            "type": "number",
+            "example": 416235
+          }
+        },
+        "required": [
+          "user",
+          "addressLine1",
+          "city",
+          "state",
+          "country",
+          "postalCode"
+        ]
+      },
+      "addressUpdateRes": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Address updated"
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "6623c3233a6eca1c26865321"
+              },
+              "user": {
+                "type": "string",
+                "example": "6623c12dcc74103d450d2c97"
+              },
+              "addressLine1": {
+                "type": "string",
+                "example": "shanivar peth (updated)"
+              },
+              "addressLine2": {
+                "type": "string",
+                "example": "near shanivar wada"
+              },
+              "city": {
+                "type": "string",
+                "example": "pune"
+              },
+              "state": {
+                "type": "string",
+                "example": "maharashtra"
+              },
+              "country": {
+                "type": "string",
+                "example": "india"
+              },
+              "postalCode": {
+                "type": "string",
+                "example": "416235"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-20T13:29:07.242Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-20T14:16:56.921Z"
+              },
+              "__v": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          }
+        }
+      },
+      "addressDeleteRes": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Address deleted"
+          },
+          "addres": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "6623d1f8172e960b094597dd"
+              },
+              "user": {
+                "type": "string",
+                "example": "6623c12dcc74103d450d2c97"
+              },
+              "addressLine1": {
+                "type": "string",
+                "example": "main road 2"
+              },
+              "addressLine2": {
+                "type": "string",
+                "example": "near bus stand"
+              },
+              "city": {
+                "type": "string",
+                "example": "kolhapur 2"
+              },
+              "state": {
+                "type": "string",
+                "example": "maharashtra 2"
+              },
+              "country": {
+                "type": "string",
+                "example": "india 2"
+              },
+              "postalCode": {
+                "type": "string",
+                "example": "416235"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-20T14:32:24.582Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-20T14:32:24.582Z"
+              },
+              "__v": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          }
+        }
+      },
+      "userAddresses": {
+        "type": "object",
+        "properties": {
+          "addresses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "6623d1f8172e960b094597dd"
+                },
+                "user": {
+                  "type": "string",
+                  "example": "6623c12dcc74103d450d2c97"
+                },
+                "addressLine1": {
+                  "type": "string",
+                  "example": "main road 2"
+                },
+                "addressLine2": {
+                  "type": "string",
+                  "example": "near bus stand"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "kolhapur 2"
+                },
+                "state": {
+                  "type": "string",
+                  "example": "maharashtra 2"
+                },
+                "country": {
+                  "type": "string",
+                  "example": "india 2"
+                },
+                "postalCode": {
+                  "type": "string",
+                  "example": "416235"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2024-04-20T14:32:24.582Z"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "example": "2024-04-20T14:32:24.582Z"
+                },
+                "__v": {
+                  "type": "number",
+                  "example": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "addressNotFound": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Address not found"
+          }
+        }
+      },
+      "adminSchemaRes": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Admin created"
+          },
+          "admin": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "John Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "johndoe"
+              },
+              "_id": {
+                "type": "string",
+                "example": "6623adae3fd349bd06b525d8"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              }
+            }
+          }
+        }
+      },
+      "successfullAdminLogin": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Login successful"
+          },
+          "admin": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "John Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "johndoe"
+              },
+              "_id": {
+                "type": "string",
+                "example": "6623adae3fd349bd06b525d8"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              }
+            }
+          }
+        }
+      },
+      "currentAdmin": {
+        "type": "object",
+        "properties": {
+          "admin": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "John Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "johndoe"
+              },
+              "_id": {
+                "type": "string",
+                "example": "6623adae3fd349bd06b525d8"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-20T11:57:34.826Z"
+              }
+            }
+          }
+        }
+      },
+      "unauthorizedAdmin": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Unauthorized admin"
+          }
+        }
+      },
+      "productSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "shoe"
+          },
+          "price": {
+            "type": "number",
+            "example": 2500
+          },
+          "description": {
+            "type": "string",
+            "example": "most valuable  sport shoe"
+          },
+          "image": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "formData"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "select images to upload"
+                }
+              }
+            }
+          },
+          "category": {
+            "type": "array",
+            "example": ["sport", "new brand"],
+            "items": {
+              "type": "string"
+            }
+          },
+          "color": {
+            "type": "array",
+            "example": ["blue", "blue"],
+            "items": {
+              "type": "string"
+            }
+          },
+          "size": {
+            "type": "array",
+            "example": [5, 6, 7],
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "price",
+          "description",
+          "image",
+          "category",
+          "color",
+          "size"
+        ]
+      },
+      "productSchemaRes": {
+        "type": "object",
+        "properties": {
+          "product": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "shoe"
+              },
+              "price": {
+                "type": "number",
+                "example": 2500
+              },
+              "description": {
+                "type": "string",
+                "example": "most valuable  sport shoe"
+              },
+              "image": {
+                "type": "array",
+                "example": [
+                  "https://res.cloudinary.com/dsfzlok5j/image/upload/v1713649297/ecommerce/adidas-shoe-top-view.jpg",
+                  "https://res.cloudinary.com/dsfzlok5j/image/upload/v1713649297/ecommerce/adidas-shoe.jpg",
+                  "https://res.cloudinary.com/dsfzlok5j/image/upload/v1713649297/ecommerce/adidas-shoe-side-view.jpg"
+                ],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "category": {
+                "type": "array",
+                "example": ["sport", "new brand"],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "color": {
+                "type": "array",
+                "example": ["blue", "white"],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "size": {
+                "type": "array",
+                "example": ["5", "6", "7"],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "_id": {
+                "type": "string",
+                "example": "662438e5ad388eaaea71f50d"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-20T21:51:33.393Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-20T21:51:33.393Z"
+              },
+              "__v": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          }
+        }
+      },
+      "productImage": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Please provide at least one product image"
+          }
+        }
+      },
+      "searchProduct": {
+        "type": "object",
+        "properties": {
+          "produsts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "shoe"
+                },
+                "price": {
+                  "type": "number",
+                  "example": 2500
+                },
+                "description": {
+                  "type": "string",
+                  "example": "most valuable  sport shoe"
+                },
+                "image": {
+                  "type": "array",
+                  "example": [
+                    "https://res.cloudinary.com/dsfzlok5j/image/upload/v1713649297/ecommerce/adidas-shoe-top-view.jpg",
+                    "https://res.cloudinary.com/dsfzlok5j/image/upload/v1713649297/ecommerce/adidas-shoe.jpg",
+                    "https://res.cloudinary.com/dsfzlok5j/image/upload/v1713649297/ecommerce/adidas-shoe-side-view.jpg"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "category": {
+                  "type": "array",
+                  "example": ["sport", "new brand"],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "color": {
+                  "type": "array",
+                  "example": ["blue", "white"],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "size": {
+                  "type": "array",
+                  "example": ["5", "6", "7"],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "662438e5ad388eaaea71f50d"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2024-04-20T21:51:33.393Z"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "example": "2024-04-20T21:51:33.393Z"
+                },
+                "__v": {
+                  "type": "number",
+                  "example": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "searchSchema": {
+        "type": "string",
+        "example": "new brand"
+      },
+      "cartSchema": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "example": "662438e5ad388eaaea71f50d"
+          },
+          "quantity": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": ["productId"]
+      },
+      "cartSchemaRes": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Product added to the cart"
+          },
+          "cart": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "type": "string",
+                "example": "6623c12dcc74103d450d2c97"
+              },
+              "products": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "string",
+                      "example": "662438e5ad388eaaea71f50d"
+                    },
+                    "quantity": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "6624c561c2d33cf4409e5200"
+                    }
+                  }
+                }
+              },
+              "_id": {
+                "type": "string",
+                "example": "6624c561c2d33cf4409e51ff"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-21T07:50:57.422Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-21T07:50:57.422Z"
+              },
+              "__v": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          }
+        }
+      },
+      "removeCartSchema": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "example": "662438e5ad388eaaea71f50d"
+          }
+        },
+        "required": ["productId"]
+      },
+      "cartNotFound": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Cart not found"
+          }
+        }
+      },
+      "cartRemovedSchemaRes": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Product removed from the cart"
+          },
+          "cart": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "type": "string",
+                "example": "6623c12dcc74103d450d2c97"
+              },
+              "products": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "string",
+                      "example": "662438e5ad388eaaea71f50d"
+                    },
+                    "quantity": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "6624c561c2d33cf4409e5200"
+                    }
+                  }
+                }
+              },
+              "_id": {
+                "type": "string",
+                "example": "6624c561c2d33cf4409e51ff"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-21T07:50:57.422Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-21T07:50:57.422Z"
+              },
+              "__v": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          }
+        }
+      },
+      "userCart": {
+        "type": "object",
+        "properties": {
+          "cart": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "6624c561c2d33cf4409e51ff"
+              },
+              "user": {
+                "type": "string",
+                "example": "6623c12dcc74103d450d2c97"
+              },
+              "products": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "662438e5ad388eaaea71f50d"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "shoe"
+                        },
+                        "price": {
+                          "type": "number",
+                          "example": 2500
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "most valuable  sport shoe"
+                        },
+                        "image": {
+                          "type": "array",
+                          "example": [
+                            "https://res.cloudinary.com/dsfzlok5j/image/upload/v1713649297/ecommerce/adidas-shoe-top-view.jpg",
+                            "https://res.cloudinary.com/dsfzlok5j/image/upload/v1713649297/ecommerce/adidas-shoe.jpg",
+                            "https://res.cloudinary.com/dsfzlok5j/image/upload/v1713649297/ecommerce/adidas-shoe-side-view.jpg"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "category": {
+                          "type": "array",
+                          "example": ["sport", "new brand"],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "color": {
+                          "type": "array",
+                          "example": ["blue", "white"],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "size": {
+                          "type": "array",
+                          "example": ["5", "6", "7"],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2024-04-20T21:51:33.393Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2024-04-20T21:51:33.393Z"
+                        },
+                        "__v": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    },
+                    "quantity": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "6624c561c2d33cf4409e5200"
+                    }
+                  }
+                }
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-21T07:50:57.422Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-21T07:50:57.422Z"
+              },
+              "__v": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          }
+        }
+      },
+      "orderSchema": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "example": ["662438e5ad388eaaea71f50d", "6624f27b1016595d9717c881"],
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["products"]
+      },
+      "createOrderSchemaRes": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "new order created"
+          },
+          "order": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "type": "string",
+                "example": "6623c12dcc74103d450d2c97"
+              },
+              "total_price": {
+                "type": "number",
+                "example": 40000
+              },
+              "status": {
+                "type": "string",
+                "example": "pending"
+              },
+              "_id": {
+                "type": "string",
+                "example": "6624f3336340a5111b99ae23"
+              },
+              "products": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "string",
+                      "example": "6624f27b1016595d9717c881"
+                    },
+                    "quantity": {
+                      "type": "number",
+                      "example": 2
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "6624f3336340a5111b99ae27"
+                    }
+                  }
+                }
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-21T11:06:27.841Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-21T11:06:27.841Z"
+              },
+              "__v": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          }
+        }
+      },
+      "cancleOrderSchemaRes": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "order cancled"
+          },
+          "order": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "6624f3336340a5111b99ae23"
+              },
+              "user": {
+                "type": "string",
+                "example": "6623c12dcc74103d450d2c97"
+              },
+              "total_price": {
+                "type": "number",
+                "example": 40000
+              },
+              "status": {
+                "type": "string",
+                "example": "pending"
+              },
+              "products": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "string",
+                      "example": "6624f27b1016595d9717c881"
+                    },
+                    "quantity": {
+                      "type": "number",
+                      "example": 2
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "6624f3336340a5111b99ae27"
+                    }
+                  }
+                }
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-21T11:06:27.841Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-21T11:06:27.841Z"
+              },
+              "__v": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          }
+        }
+      },
+      "userAllOrders": {
+        "type": "object",
+        "properties": {
+          "orders": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "6624f62b6c0a5b24e701f0ae"
+                },
+                "user": {
+                  "type": "string",
+                  "example": "6623c12dcc74103d450d2c97"
+                },
+                "total_price": {
+                  "type": "number",
+                  "example": 40000
+                },
+                "status": {
+                  "type": "string",
+                  "example": "pending"
+                },
+                "products": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "product": {
+                        "type": "string",
+                        "example": "6624f27b1016595d9717c881"
+                      },
+                      "quantity": {
+                        "type": "number",
+                        "example": 2
+                      },
+                      "_id": {
+                        "type": "string",
+                        "example": "6624f62b6c0a5b24e701f0b2"
+                      }
+                    }
+                  }
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2024-04-21T11:19:07.311Z"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "example": "2024-04-21T11:19:07.311Z"
+                },
+                "__v": {
+                  "type": "number",
+                  "example": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "wishlistSchema": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "example": "662438e5ad388eaaea71f50d"
+          }
+        },
+        "required": ["productId"]
+      },
+      "productIdNotFound": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "product id not provided"
+          }
+        }
+      },
+      "wishlistProductExist": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Product already exists in the wishlist"
+          }
+        }
+      },
+      "wishlistAddedRes": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Product added to the wishlist"
+          },
+          "wishlist": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "6624fa66d2236e45c8948622"
+              },
+              "user": {
+                "type": "string",
+                "example": "6623c12dcc74103d450d2c97"
+              },
+              "products": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "string",
+                      "example": "6624f27b1016595d9717c881"
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "662502db1ccc2873f4f0e0ef"
+                    }
+                  }
+                }
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-21T11:37:10.554Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-21T12:13:15.386Z"
+              },
+              "__v": {
+                "type": "number",
+                "example": 6
+              }
+            }
+          }
+        }
+      },
+      "wishlistProductRemoved": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Product removed from the wishlist"
+          },
+          "removedwishlist": {
+            "type": "object",
+            "properties": {
+              "product": {
+                "type": "string",
+                "example": "6624f27b1016595d9717c881"
+              },
+              "_id": {
+                "type": "string",
+                "example": "6624fe609372c9ffa17cc26e"
+              }
+            }
+          }
+        }
+      },
+      "wishlistNotFound": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "wishlist not found"
+          }
+        }
+      },
+      "userWishlist": {
+        "type": "object",
+        "properties": {
+          "wishlist": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "6624fa66d2236e45c8948622"
+              },
+              "user": {
+                "type": "string",
+                "example": "6623c12dcc74103d450d2c97"
+              },
+              "products": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "6624f27b1016595d9717c881"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "rolex watch"
+                        },
+                        "price": {
+                          "type": "number",
+                          "example": 15000
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "world best branded watch"
+                        },
+                        "image": {
+                          "type": "array",
+                          "example": [
+                            "https://res.cloudinary.com/dsfzlok5j/image/upload/v1713697402/ecommerce/rolex-1.jpg",
+                            "https://res.cloudinary.com/dsfzlok5j/image/upload/v1713697403/ecommerce/rolex-2.jpg"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "category": {
+                          "type": "array",
+                          "example": ["casual", "watch"],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "color": {
+                          "type": "array",
+                          "example": ["silver", "black"],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "size": {
+                          "type": "array",
+                          "example": ["5", "6", "7"],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2024-04-21T11:03:24.009Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2024-04-21T11:03:24.009Z"
+                        },
+                        "__v": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "662502db1ccc2873f4f0e0ef"
+                    }
+                  }
+                }
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2024-04-21T11:37:10.554Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2024-04-21T12:13:15.386Z"
+              },
+              "__v": {
+                "type": "number",
+                "example": 6
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

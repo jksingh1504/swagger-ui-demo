@@ -1,0 +1,582 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "ecommerce-rest-api",
+    "collectionId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+    "dateExported": "2024-04-26T19:37:37.580Z",
+    "version": "1.2",
+    "folders": [
+        {
+            "_id": "b24987d2-eb35-448e-b6bf-7c8c3be8dcbd",
+            "name": "auth",
+            "containerId": "",
+            "created": "2024-04-17T19:55:26.599Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "f6fff645-9720-4f2c-bcff-a47b0ff239c3",
+            "name": "user",
+            "containerId": "",
+            "created": "2024-04-18T18:48:15.752Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "9e2faef6-f582-4c55-966a-6371be127090",
+            "name": "address",
+            "containerId": "",
+            "created": "2024-04-20T13:24:06.995Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "ae5d7c7d-412a-4367-84f4-62063ebeeabc",
+            "name": "cart",
+            "containerId": "",
+            "created": "2024-04-20T17:17:19.974Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "02ed7f57-9530-4ecd-b2e1-5df12f283ce7",
+            "name": "admin",
+            "containerId": "",
+            "created": "2024-04-20T17:49:49.398Z",
+            "sortNum": 50000
+        },
+        {
+            "_id": "354dfece-3860-4d86-9e7d-fd94f0af9845",
+            "name": "product",
+            "containerId": "",
+            "created": "2024-04-20T21:15:26.686Z",
+            "sortNum": 60000
+        },
+        {
+            "_id": "e2684b1a-4aee-4e15-8593-43b762331d6f",
+            "name": "order",
+            "containerId": "",
+            "created": "2024-04-21T10:46:31.711Z",
+            "sortNum": 70000
+        },
+        {
+            "_id": "de630bcb-00c0-4868-b3e3-78152ab95c9e",
+            "name": "wishlist",
+            "containerId": "",
+            "created": "2024-04-21T11:29:40.903Z",
+            "sortNum": 80000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "3a161ae7-655f-4ed6-aa50-21a54474ad3e",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "",
+            "name": "test",
+            "url": "",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-04-17T17:48:11.003Z",
+            "modified": "2024-04-17T17:48:11.004Z",
+            "headers": []
+        },
+        {
+            "_id": "c97fb479-289c-46a7-be78-f3e2225ca31a",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "b24987d2-eb35-448e-b6bf-7c8c3be8dcbd",
+            "name": "register",
+            "url": "/api/auth/register",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-04-17T19:55:35.297Z",
+            "modified": "2024-04-20T21:12:26.836Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"johndoe2\",\n  \"password\": \"jahn@123\",\n  \"age\": 25\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "e302366b-2d1a-4928-bf4e-403b9b56b767",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "b24987d2-eb35-448e-b6bf-7c8c3be8dcbd",
+            "name": "login",
+            "url": "/api/auth/login",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-04-18T16:56:05.380Z",
+            "modified": "2024-04-20T13:21:40.017Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"johndoe\",\n  \"password\": \"jahn@123\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "82f2e9eb-3862-4bbb-b223-09a0e06813d4",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "b24987d2-eb35-448e-b6bf-7c8c3be8dcbd",
+            "name": "logout",
+            "url": "/api/auth/logout",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-04-18T17:09:29.389Z",
+            "modified": "2024-04-18T17:09:38.324Z",
+            "headers": []
+        },
+        {
+            "_id": "aaa7c1e9-01af-4be5-9f39-d4b798f16157",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "b24987d2-eb35-448e-b6bf-7c8c3be8dcbd",
+            "name": "refetch",
+            "url": "/api/auth/refetch",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2024-04-18T17:10:24.877Z",
+            "modified": "2024-04-18T17:10:41.302Z",
+            "headers": []
+        },
+        {
+            "_id": "bf4ace2c-de28-494b-8fea-3527f0abeea8",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "f6fff645-9720-4f2c-bcff-a47b0ff239c3",
+            "name": "update",
+            "url": "/api/user/update",
+            "method": "PUT",
+            "sortNum": 60000,
+            "created": "2024-04-18T18:48:26.007Z",
+            "modified": "2024-04-18T19:14:59.029Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"omkarsathe@gmail.com\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "76689f9e-687c-4060-9938-da4f58f2746d",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "f6fff645-9720-4f2c-bcff-a47b0ff239c3",
+            "name": "get user",
+            "url": "/api/user",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-04-18T20:01:25.843Z",
+            "modified": "2024-04-18T20:01:38.912Z",
+            "headers": []
+        },
+        {
+            "_id": "4ef094b5-965a-4690-8fa6-ba26eef446c4",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "f6fff645-9720-4f2c-bcff-a47b0ff239c3",
+            "name": "delete",
+            "url": "/api/user/delete",
+            "method": "DELETE",
+            "sortNum": 80000,
+            "created": "2024-04-18T20:12:12.524Z",
+            "modified": "2024-04-18T20:12:40.482Z",
+            "headers": []
+        },
+        {
+            "_id": "4788a16f-a7c2-42a9-8b6c-823904120b1d",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "9e2faef6-f582-4c55-966a-6371be127090",
+            "name": "create",
+            "url": "/api/address/create",
+            "method": "POST",
+            "sortNum": 90000,
+            "created": "2024-04-20T13:24:28.716Z",
+            "modified": "2024-04-20T14:30:39.424Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"addressLine1\": \"main road 2\",\n  \"addressLine2\": \"near bus stand\",\n  \"city\": \"kolhapur 2\",\n  \"state\": \"maharashtra 2\",\n  \"country\": \"india 2\",\n  \"postalCode\": 416235\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "668a1199-7f6b-4c7d-8082-8e7da57a3fd9",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "9e2faef6-f582-4c55-966a-6371be127090",
+            "name": "update",
+            "url": "/api/address/update/6623d18f206bef8dbd7a9c8a",
+            "method": "PUT",
+            "sortNum": 100000,
+            "created": "2024-04-20T13:59:55.924Z",
+            "modified": "2024-04-20T15:05:41.417Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"addressLine1\": \"shanivar peth (updated)\",\n  \"addressLine2\": \"near shanivar wada\",\n  \"city\": \"pune\",\n  \"state\": \"maharashtra\",\n  \"country\": \"india\",\n  \"postalCode\": 416235\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "49c5a4cb-023e-4096-a97d-18a84673adb6",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "9e2faef6-f582-4c55-966a-6371be127090",
+            "name": "get user addresses",
+            "url": "/api/address",
+            "method": "GET",
+            "sortNum": 110000,
+            "created": "2024-04-20T14:38:08.375Z",
+            "modified": "2024-04-20T14:38:23.022Z",
+            "headers": []
+        },
+        {
+            "_id": "7593f23d-501a-4fc5-a10d-7fa7e44745ce",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "9e2faef6-f582-4c55-966a-6371be127090",
+            "name": "delete",
+            "url": "/api/address/delete/6623d1f8172e960b094597dd",
+            "method": "DELETE",
+            "sortNum": 120000,
+            "created": "2024-04-20T15:11:39.844Z",
+            "modified": "2024-04-20T15:13:10.540Z",
+            "headers": []
+        },
+        {
+            "_id": "d66bdc8a-275e-498f-9326-906ffe237a58",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "ae5d7c7d-412a-4367-84f4-62063ebeeabc",
+            "name": "add to cart",
+            "url": "/api/cart/add",
+            "method": "POST",
+            "sortNum": 130000,
+            "created": "2024-04-20T17:17:40.986Z",
+            "modified": "2024-04-21T11:04:01.119Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"productId\": \"6624f27b1016595d9717c881\",\n  \"quantity\": 1\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "1ffde866-21f2-4ce1-a23c-6d6401d094bc",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "02ed7f57-9530-4ecd-b2e1-5df12f283ce7",
+            "name": "register",
+            "url": "/api/admin-auth/register",
+            "method": "POST",
+            "sortNum": 140000,
+            "created": "2024-04-20T17:50:10.460Z",
+            "modified": "2024-04-20T17:52:43.468Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"omkar\",\n  \"email\": \"omkar@gmail.com\",\n  \"password\": \"omkar@123\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "b03d1c5e-292d-4afc-9c84-3ff79a3a3be4",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "02ed7f57-9530-4ecd-b2e1-5df12f283ce7",
+            "name": "login",
+            "url": "/api/admin-auth/login",
+            "method": "POST",
+            "sortNum": 150000,
+            "created": "2024-04-20T17:57:08.222Z",
+            "modified": "2024-04-20T17:57:49.870Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"omkar@gmail.com\",\n  \"password\": \"omkar@123\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "6f2a618b-5753-4339-a803-ebef6b9e3a60",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "02ed7f57-9530-4ecd-b2e1-5df12f283ce7",
+            "name": "logout",
+            "url": "/api/admin-auth/logout",
+            "method": "GET",
+            "sortNum": 160000,
+            "created": "2024-04-20T18:03:02.949Z",
+            "modified": "2024-04-20T18:03:29.943Z",
+            "headers": []
+        },
+        {
+            "_id": "c14defa7-bce6-4422-a7ce-45950674db35",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "02ed7f57-9530-4ecd-b2e1-5df12f283ce7",
+            "name": "refetch",
+            "url": "/api/admin-auth/refetch",
+            "method": "GET",
+            "sortNum": 170000,
+            "created": "2024-04-20T18:03:54.394Z",
+            "modified": "2024-04-20T18:04:21.543Z",
+            "headers": []
+        },
+        {
+            "_id": "5016b9a6-8a45-4f6c-a7ec-ad7b1b2f4e54",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "",
+            "name": "upload",
+            "url": "/upload",
+            "method": "POST",
+            "sortNum": 180000,
+            "created": "2024-04-20T18:57:42.849Z",
+            "modified": "2024-04-20T19:23:58.441Z",
+            "headers": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "omkar"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "file",
+                        "value": "/home/omkar/Downloads/about-back.jpg"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "5f42477b-7717-4731-9092-f202648b3e6d",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "354dfece-3860-4d86-9e7d-fd94f0af9845",
+            "name": "create",
+            "url": "/api/product/create",
+            "method": "POST",
+            "sortNum": 190000,
+            "created": "2024-04-20T21:15:36.053Z",
+            "modified": "2024-04-21T11:03:24.048Z",
+            "headers": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "rolex watch"
+                    },
+                    {
+                        "name": "price",
+                        "value": "15000"
+                    },
+                    {
+                        "name": "description",
+                        "value": "world best branded watch"
+                    },
+                    {
+                        "name": "category",
+                        "value": "casual"
+                    },
+                    {
+                        "name": "category",
+                        "value": "watch"
+                    },
+                    {
+                        "name": "color",
+                        "value": "silver"
+                    },
+                    {
+                        "name": "color",
+                        "value": "black"
+                    },
+                    {
+                        "name": "size",
+                        "value": "5"
+                    },
+                    {
+                        "name": "size",
+                        "value": "6"
+                    },
+                    {
+                        "name": "size",
+                        "value": "7"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "images",
+                        "value": "/home/omkar/Downloads/rolex-1.jpg"
+                    },
+                    {
+                        "name": "images",
+                        "value": "/home/omkar/Downloads/rolex-2.jpg"
+                    },
+                    {
+                        "name": "images",
+                        "value": "/home/omkar/Downloads/adidas-shoe-top-view.jpg",
+                        "isDisabled": true
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "511b380e-a109-4a70-b45d-c775fb9b2cce",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "354dfece-3860-4d86-9e7d-fd94f0af9845",
+            "name": "search by name or category",
+            "url": "/api/product/search/new",
+            "method": "GET",
+            "sortNum": 200000,
+            "created": "2024-04-20T22:40:16.873Z",
+            "modified": "2024-04-20T22:41:26.930Z",
+            "headers": []
+        },
+        {
+            "_id": "7869a1b5-4037-40f1-8617-7129e9778ec4",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "354dfece-3860-4d86-9e7d-fd94f0af9845",
+            "name": "get all",
+            "url": "/api/product/",
+            "method": "GET",
+            "sortNum": 210000,
+            "created": "2024-04-21T06:56:11.970Z",
+            "modified": "2024-04-21T06:56:47.325Z",
+            "headers": []
+        },
+        {
+            "_id": "22b2dea2-7d18-4d88-96b7-287276babd54",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "354dfece-3860-4d86-9e7d-fd94f0af9845",
+            "name": "search by category",
+            "url": "/api/product/new brand",
+            "method": "GET",
+            "sortNum": 220000,
+            "created": "2024-04-21T06:57:38.791Z",
+            "modified": "2024-04-21T06:58:45.287Z",
+            "headers": []
+        },
+        {
+            "_id": "d0c131eb-d11e-4630-88e6-9e73211342c8",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "354dfece-3860-4d86-9e7d-fd94f0af9845",
+            "name": "get by id",
+            "url": "/api/product/get/662438e5ad388eaaea71f50d",
+            "method": "GET",
+            "sortNum": 230000,
+            "created": "2024-04-21T06:59:19.328Z",
+            "modified": "2024-04-21T07:00:05.704Z",
+            "headers": []
+        },
+        {
+            "_id": "39f5fbf7-db5b-4d65-894e-2b690d6b2ab8",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "ae5d7c7d-412a-4367-84f4-62063ebeeabc",
+            "name": "get user cart",
+            "url": "/api/cart",
+            "method": "GET",
+            "sortNum": 240000,
+            "created": "2024-04-21T08:07:31.237Z",
+            "modified": "2024-04-21T08:07:42.306Z",
+            "headers": []
+        },
+        {
+            "_id": "8aecd748-5fb6-4552-b7af-bd7883aa2e05",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "ae5d7c7d-412a-4367-84f4-62063ebeeabc",
+            "name": "remove product from cart",
+            "url": "/api/cart/remove",
+            "method": "DELETE",
+            "sortNum": 250000,
+            "created": "2024-04-21T08:09:10.529Z",
+            "modified": "2024-04-21T08:11:00.044Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"productId\": \"662438e5ad388eaaea71f50d\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "411fff2a-d04a-4019-8b58-b9135077bb2d",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "e2684b1a-4aee-4e15-8593-43b762331d6f",
+            "name": "create",
+            "url": "/api/order/create",
+            "method": "POST",
+            "sortNum": 260000,
+            "created": "2024-04-21T10:46:41.160Z",
+            "modified": "2024-04-21T11:05:11.680Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"products\": [\n    \"662438e5ad388eaaea71f50d\",\n    \"6624f27b1016595d9717c881\"\n  ]\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "bb8e3058-954d-4217-891a-589899ddebb6",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "e2684b1a-4aee-4e15-8593-43b762331d6f",
+            "name": "get user orders",
+            "url": "/api/order/",
+            "method": "GET",
+            "sortNum": 270000,
+            "created": "2024-04-21T11:09:24.753Z",
+            "modified": "2024-04-21T11:09:34.811Z",
+            "headers": []
+        },
+        {
+            "_id": "4076fe14-933a-481d-b6be-6b34461eed23",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "e2684b1a-4aee-4e15-8593-43b762331d6f",
+            "name": "delete order",
+            "url": "/api/order/cancle/6624f3336340a5111b99ae23",
+            "method": "DELETE",
+            "sortNum": 280000,
+            "created": "2024-04-21T11:10:26.512Z",
+            "modified": "2024-04-21T11:11:19.833Z",
+            "headers": []
+        },
+        {
+            "_id": "5f5efedd-6ea2-47d8-a0b9-76c47434f850",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "de630bcb-00c0-4868-b3e3-78152ab95c9e",
+            "name": "add",
+            "url": "/api/wishlist/add",
+            "method": "POST",
+            "sortNum": 290000,
+            "created": "2024-04-21T11:29:58.967Z",
+            "modified": "2024-04-21T11:38:24.731Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"productId\": \"6624f27b1016595d9717c881\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "11bbe121-b1d7-4d55-89c7-36c895a503e1",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "de630bcb-00c0-4868-b3e3-78152ab95c9e",
+            "name": "get user wishlist",
+            "url": "/api/wishlist/",
+            "method": "GET",
+            "sortNum": 300000,
+            "created": "2024-04-21T11:37:54.808Z",
+            "modified": "2024-04-21T11:38:02.612Z",
+            "headers": []
+        },
+        {
+            "_id": "301064e2-8880-4e0b-b278-aced3c0ea695",
+            "colId": "929bb736-b537-4536-9900-57a8ca68d7bd",
+            "containerId": "de630bcb-00c0-4868-b3e3-78152ab95c9e",
+            "name": "delete",
+            "url": "/api/wishlist/remove",
+            "method": "DELETE",
+            "sortNum": 310000,
+            "created": "2024-04-21T11:39:00.148Z",
+            "modified": "2024-04-21T11:49:22.332Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"productId\": \"6624f27b1016595d9717c881\"\n}",
+                "form": []
+            }
+        }
+    ],
+    "settings": {
+        "options": {
+            "baseUrl": "http://localhost:8000"
+        }
+    },
+    "ref": "7qwz26FzZI0N_4bJRlRY__x_tTaCj3DSiWPEqz3PXu82W5MPY2fDMiP-WdC2k6tIxCqwR4d2c7Ci27Whl3Cqtg"
+}
